@@ -1,10 +1,14 @@
----
-# main playbook
+# - name: Create underlay and overlay
+#   hosts: spine
+#   roles:
+#     - role: spine
 
-- hosts: spine
-  roles:
-    - role: spine
+# - name: Create underlay and overlay
+#   hosts: leaf
+#   roles:
+#     - role: leaf
 
-- hosts: leaf
+- name: Create vrf tenant1
+  hosts: leaf
   roles:
-    - role: leaf
+    - role: tenant1
