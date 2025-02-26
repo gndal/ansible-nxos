@@ -1,7 +1,7 @@
 ---
 -   name: ENABLE FEATURES
     cisco.nxos.nxos_feature:
-        feature: "{{item.feature }}"
+        feature: "{{ item.feature }}"
     loop: "{{ features }}"
 
 -   name: ENABLE FEATURES
@@ -35,13 +35,6 @@
                         area_id: "{{ ospf_area }}"
     loop: "{{ loopbacks }}"
 
-# -  name: CONFIGURE INTERFACE INTERFACES
-#    cisco.nxos.nxos_interfaces:
-#        config:
-#        -   name: "{{ item.interface }}"
-#            enabled: true
-#    loop: "{{ interface }}"
-
 -   name: ASSOCIATE INTERFACE WITH OSPF PROCESS
     cisco.nxos.nxos_ospf_interfaces:
         config:
@@ -52,16 +45,16 @@
                 -   process_id: "{{ ospf_process_id }}"
                     area:
                         area_id: "{{ ospf_area }}"
-    loop: "{{ interface }}"
-    
--   -   name: CONFIGURE INTERFACE IP OSPF
-        cisco.nxos.nxos_l3_interfaces:
+    loop: "{{ interfaces }}"
+
+-   name: CONFIGURE INTERFACE IP OSPF
+    cisco.nxos.nxos_l3_interfaces:
         config:
         -   name: "{{ item.interface }}"
             ipv4:
-                -   address: "{{ item.addr }}/{{ item.mask }}"
-                -   network: point-to-point
-        loop: "{{ interfaces }}"
+            -   address: "{{ item.addr }}/{{ item.mask }}"
+            -   network: point-to-point
+    loop: "{{ interfaces }}"
 
 -   name: CONFIGURE PIM INTERFACES
     cisco.nxos.nxos_pim_interface:

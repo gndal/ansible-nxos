@@ -5,7 +5,6 @@ loopbacks:
 - { interface: Loopback1, addr: 1.1.1.1, mask: 32 }
 
 interfaces:
- - { interface: Ethernet1/1 }
- - { interface: Ethernet1/2 }
-
+- { interface: Ethernet1/1, addr: 172.12.0.0, mask: 31 }
+- { interface: Ethernet1/2, addr: 172.12.0.2, mask: 31 }
  
