@@ -3,9 +3,7 @@ spine_features:
   - feature: bgp
   - feature: pim
   - feature: ospf
-spine_ospf_process_id: UNDERLAY
-spine_ospf_area: 0
-spine_asn: 65001
+  - feature: nv overlay
 spine_address_families:
   - afi: l2vpn
     safi: evpn

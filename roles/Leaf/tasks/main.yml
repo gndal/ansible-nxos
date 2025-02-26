@@ -4,9 +4,15 @@
     feature: "{{ item.feature }}"
   loop: "{{ leaf_features }}"
 
-- name: ENABLE FEATURES
-  cisco.nxos.nxos_config:
-    lines: feature nv overlay
+- name: ENABLE OSPF PROCESS
+  cisco.nxos.nxos_ospfv2:
+    config:
+      processes:
+        - process_id: "{{ ospf_process_id }}"
+          router_id: "{{ router_id }}"
+          areas:
+            - area_id: 0.0.0.0
+              default_cost: 10
 
 - name: CONFIGURE LOOPBACK INTERFACES
   cisco.nxos.nxos_interfaces:
@@ -30,9 +36,9 @@
         address_family:
           - afi: ipv4
             processes:
-              - process_id: "{{ leaf_ospf_process_id }}"
+              - process_id: "{{ ospf_process_id }}"
                 area:
-                  area_id: "{{ leaf_ospf_area }}"
+                  area_id: "{{ ospf_area }}"
   loop: "{{ loopbacks }}"
 
 - name: CONFIGURE LINK INTERFACES
@@ -59,16 +65,10 @@
           - afi: ipv4
             network: point-to-point
             processes:
-              - process_id: "{{ leaf_ospf_process_id }}"
+              - process_id: "{{ ospf_process_id }}"
                 area:
-                  area_id: "{{ leaf_ospf_area }}"
+                  area_id: "{{ ospf_area }}"
   loop: "{{ interfaces }}"
-
-- name: CONFIGURE PIM INTERFACES
-  cisco.nxos.nxos_pim_interface:
-    interface: "{{ item.interface }}"
-    sparse: true
-  loop: "{{ loopbacks }}"
 
 - name: ENABLE NV OVERLAY EVPN
   cisco.nxos.nxos_evpn_global:
@@ -77,7 +77,7 @@
 - name: CONFIGURE BGP ASN, ROUTER ID, AND NEIGHBORS
   cisco.nxos.nxos_bgp_global:
     config:
-      as_number: "{{ leaf_asn }}"
+      as_number: "{{ asn }}"
       router_id: "{{ router_id }}"
       neighbors:
         - neighbor_address: "{{ item.neighbor }}"
@@ -89,7 +89,7 @@
 - name: CONFIGURE BGP NEIGHBOR AFI, SAFI, COMMUNITY, and RR
   cisco.nxos.nxos_bgp_neighbor_address_family:
     config:
-      as_number: "{{ leaf_asn }}"
+      as_number: "{{ asn }}"
       neighbors:
         - neighbor_address: "{{ item.neighbor }}"
           address_family:

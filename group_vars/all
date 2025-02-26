@@ -5,3 +5,7 @@ ansible_httpapi_validate_certs: no
 ansible_network_os: nxos
 ansible_user: cisco
 ansible_httpapi_pass: cisco
+
+ospf_process_id: UNDERLAY
+ospf_area: 0
+asn: 65001

@@ -28,7 +28,7 @@
   cisco.nxos.nxos_vxlan_vtep_vni:
     interface: nve1
     vni: "{{ item.vni_id }}"
-    multicast_group: "{{ item.mcast_grp }}"
+    ingress_replication: bgp
   loop: "{{ tenant1_vlans_l2vni }}"
 
 - name: CONFIGURE VXLAN VTEP NVE INTERFACE L3VNI MAPPING
@@ -121,5 +121,5 @@
     config:
       - name: "{{ item.interface }}"
         trunk:
-          allowed_vlans: 10,12-15
+          allowed_vlans: 10,12-13
   loop: "{{ tenant1_l2_trunk }}"

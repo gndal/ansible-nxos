@@ -5,6 +5,7 @@ leaf_features:
   - feature: ospf
   - feature: pim
   - feature: vnseg_vlan
+  - feature: nv overlay
 leaf_ospf_process_id: UNDERLAY
 leaf_ospf_area: 0
 leaf_asn: 65001
