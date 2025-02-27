@@ -1,0 +1,41 @@
+vrfs:
+  - vrf: Tenant-2
+    vni_id: 20000
+    afi: ipv4
+    safi: unicast
+vlans_l2vni:
+  - vlan_id: 21
+    vni_id: 10021
+    addr: 20.0.11.1
+    mask: 24
+    vrf: Tenant-2
+  - vlan_id: 22
+    vni_id: 10022
+    addr: 20.0.12.1
+    mask: 24
+    vrf: Tenant-2
+  - vlan_id: 23
+    vni_id: 10023
+    addr: 20.0.13.1
+    mask: 24
+    vrf: Tenant-2
+  - vlan_id: 24
+    vni_id: 10024
+    addr: 20.0.14.1
+    mask: 24
+    vrf: Tenant-2
+  - vlan_id: 25
+    vni_id: 10015
+    addr: 10.0.15.1
+    mask: 24
+    vrf: Tenant-2
+vlans_l3vni:
+  - vlan_id: 20
+    vni_id: 20000
+    vrf: Tenant-2
+l2_access:
+  - interface: Ethernet1/2
+    vlan_id: 20
+l2_trunk:
+  - interface: Ethernet1/3
+    vlan_id: 21-25
