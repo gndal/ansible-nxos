@@ -2,15 +2,11 @@
 router_id: 10.10.10.11
 loopbacks:
   - interface: Loopback0
-    addr: 10.10.10.11
-    mask: 32
+    addr: 10.10.10.11/32
   - interface: Loopback1
-    addr: 1.1.1.1
-    mask: 32
+    addr: 1.1.1.1/32
 interfaces:
   - interface: Ethernet1/1
-    addr: 172.12.0.0
-    mask: 31
+    addr: 172.12.0.0/31
   - interface: Ethernet1/2
-    addr: 172.12.0.2
-    mask: 31
+    addr: 172.12.0.2/31

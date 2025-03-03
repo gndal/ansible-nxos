@@ -71,7 +71,7 @@
 
 - name: ASSOCIATE INTERFACES TO TENANT VRF
   cisco.nxos.nxos_vrf_interface:
-    vrf: "{{ item.vrf }}"
+    vrf: "{{ vrfs[0].vrf }}"
     interface: vlan{{ item.vlan_id }}
   with_items:
     - "{{ vlans_l2vni }}"

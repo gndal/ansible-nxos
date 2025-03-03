@@ -26,7 +26,7 @@
     config:
       - name: "{{ item.interface }}"
         ipv4:
-          - address: "{{ item.addr }}/{{ item.mask }}"
+          - address: "{{ item.addr }}"
   loop: "{{ loopbacks }}"
 
 - name: ASSOCIATE LOOPBACK WITH OSPF PROCESS
@@ -54,7 +54,7 @@
     config:
       - name: "{{ item.interface }}"
         ipv4:
-          - address: "{{ item.addr }}/{{ item.mask }}"
+          - address: "{{ item.addr }}"
   loop: "{{ interfaces }}"
 
 - name: ASSOCIATE INTERFACE WITH OSPF PROCESS
@@ -83,7 +83,6 @@
         - neighbor_address: "{{ item.neighbor }}"
           remote_as: "{{ item.remote_as }}"
           update_source: "{{ item.update_source }}"
-    state: merged
   loop: "{{ leaf_bgp_neighbors }}"
 
 - name: CONFIGURE BGP NEIGHBOR AFI, SAFI, COMMUNITY, and RR

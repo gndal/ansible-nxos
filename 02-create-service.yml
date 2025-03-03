@@ -1,0 +1,13 @@
+# filepath: /home/oser/ansible-nxos/02-create-service.yml
+- name: Create tenant
+  hosts: leaf
+  tasks:
+    - name: Include tenant variables
+      include_vars: "tenant_vars/{{ vrf }}.yml"
+    
+    - name: Run Service role
+      include_role:
+        name: Service
+
+
+#ansible-playbook 02-create-service.yml -i inventory -e vrf=tenant1

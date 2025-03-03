@@ -8,7 +8,7 @@
    roles:
      - role: Leaf
 
- - name: Create vrf tenant1
-   hosts: leaf
-   roles:
-    - role: Tenant1
+# - name: Create vrf tenant1
+#   hosts: leaf
+#   roles:
+#    - role: Service
