@@ -1,14 +1,10 @@
- - name: Create underlay and overlay
-   hosts: spine
-   roles:
+---
+  - name: Configure spine
+    hosts: spine
+    roles:
      - role: Spine
 
- - name: Create underlay and overlay
-   hosts: leaf
-   roles:
+  - name: Configure Leaf
+    hosts: leaf
+    roles:
      - role: Leaf
-
-# - name: Create vrf tenant1
-#   hosts: leaf
-#   roles:
-#    - role: Service

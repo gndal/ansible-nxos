@@ -4,25 +4,23 @@
     config:
       - vlan_id: "{{ item.vlan_id }}"
         mapped_vni: "{{ item.vni_id }}"
-  with_items:
-    - "{{ vlans_l2vni }}"
-    - "{{ vlans_l3vni }}"
+  with_items: "{{ vlans_l2vni + vlans_l3vni }}"
 
 - name: CONFIGURE TENANT VRFs
   cisco.nxos.nxos_vrf:
-    vrf: "{{ item.vrf }}"
-    vni: "{{ item.vni_id }}"
+    vrf: "{{ vrf }}"
+    vni: "{{ vni_id }}"
     rd: auto
     state: present
-  loop: "{{ vrfs }}"
+
 
 - name: CONFIGURE TENANT VRFs (cont'd)
   cisco.nxos.nxos_vrf_af:
-    vrf: "{{ item.vrf }}"
+    vrf: "{{ vrf }}"
     afi: ipv4
     route_target_both_auto_evpn: true
     state: present
-  loop: "{{ vrfs }}"
+
 
 - name: CONFIGURE VXLAN VTEP NVE INTERFACE L2VNI MAPPING
   cisco.nxos.nxos_vxlan_vtep_vni:
@@ -34,9 +32,9 @@
 - name: CONFIGURE VXLAN VTEP NVE INTERFACE L3VNI MAPPING
   cisco.nxos.nxos_vxlan_vtep_vni:
     interface: nve1
-    vni: "{{ item.vni_id }}"
+    vni: "{{ vni_id }}"
     assoc_vrf: true
-  loop: "{{ vlans_l3vni }}"
+
 
 - name: CONFIGURE L2 EVPN VRFs
   cisco.nxos.nxos_evpn_vni:
@@ -50,11 +48,10 @@
     config:
       as_number: "{{ asn }}"
       address_family:
-        - afi: "{{ item.afi }}"
-          safi: "{{ item.safi }}"
-          vrf: "{{ item.vrf }}"
+        - afi: "ipv4"
+          safi: "unicast"
+          vrf: "{{ vrf }}"
           advertise_l2vpn_evpn: true
-  loop: "{{ vrfs }}"
 
 - name: CONFIGURE ANYCAST GW MAC
   cisco.nxos.nxos_overlay_global:
@@ -71,7 +68,7 @@
 
 - name: ASSOCIATE INTERFACES TO TENANT VRF
   cisco.nxos.nxos_vrf_interface:
-    vrf: "{{ vrfs[0].vrf }}"
+    vrf: "{{ vrf }}"
     interface: vlan{{ item.vlan_id }}
   with_items:
     - "{{ vlans_l2vni }}"
@@ -95,8 +92,8 @@
     config:
       - name: Vlan{{ item.vlan_id }}
         ipv4:
-          - address: "{{ item.addr }}/{{ item.mask }}"
-  loop: "{{ vlans_l2vni }}"
+          - address: "{{ item.addr }}"
+  with_items: "{{ vlans_l2vni }}"
 
 - name: CONFIGURE L2 INTERFACE
   cisco.nxos.nxos_interfaces:
@@ -113,14 +110,15 @@
     config:
       - name: "{{ item.interface }}"
         access:
-          vlan: "{{ vlan_id }}"
+          vlan: "{{ item.vlan_id }}"
   loop: "{{ l2_access }}"
-  
+
 
 - name: CONFIGURE VLAN TRUNK
   cisco.nxos.nxos_l2_interfaces:
     config:
       - name: "{{ item.interface }}"
         trunk:
-          allowed_vlans: "{{ vlan_id }}"
+          allowed_vlans: "{{ item.vlan_id }}"
   loop: "{{ l2_trunk }}"
+...

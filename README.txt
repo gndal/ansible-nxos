@@ -1,0 +1,1 @@
+you will need ansible-galaxy collection install cisco.nxos==8.0.0 since 9.3.0 does not work with 

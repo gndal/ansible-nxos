@@ -1,0 +1,11 @@
+---
+vrf: dev
+vni_id: 5000
+vlans_l3vni:
+  - { vlan_id: 500, vni_id: 5000 }
+vlans_l2vni:
+  - { vlan_id: 501, vni_id: 5101, addr: 10.5.1.1/24 }
+l2_access:
+  - { interface: Ethernet1/2, vlan_id: 500 }
+l2_trunk:
+  - { interface: Ethernet1/3, vlan_id: 501 }

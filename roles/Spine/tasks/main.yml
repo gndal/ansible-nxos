@@ -27,7 +27,7 @@
       - name: "{{ item.interface }}"
         ipv4:
           - address: "{{ item.addr }}"
-  loop: "{{ loopbacks }}"
+  with_items: "{{ loopbacks }}"
 
 - name: ASSOCIATE LOOPBACK WITH OSPF PROCESS
   cisco.nxos.nxos_ospf_interfaces:

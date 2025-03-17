@@ -1,14 +1,10 @@
 ---
 router_id: 10.10.10.22
 loopbacks:
-  - interface: loopback0
+  - interface: Loopback0
     addr: 10.10.10.22/32
-  - interface: loopback1
+  - interface: Loopback1
     addr: 2.2.2.2/32
 interfaces:
   - interface: Ethernet1/1
     addr: 172.12.0.3/31
-tenant1_l2_access:
-  - interface: Ethernet1/2
-tenant1_l2_trunk:
-  - interface: Ethernet1/3

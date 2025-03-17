@@ -14,4 +14,3 @@ spine_bgp_neighbors:
   - remote_as: 65001
     neighbor: 10.10.10.22
     update_source: Loopback0
-spine_rp_address: 1.1.1.1

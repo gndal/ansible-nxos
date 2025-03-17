@@ -4,16 +4,6 @@
     feature: "{{ item.feature }}"
   loop: "{{ leaf_features }}"
 
-- name: ENABLE OSPF PROCESS
-  cisco.nxos.nxos_ospfv2:
-    config:
-      processes:
-        - process_id: "{{ ospf_process_id }}"
-          router_id: "{{ router_id }}"
-          areas:
-            - area_id: 0.0.0.0
-              default_cost: 10
-
 - name: CONFIGURE LOOPBACK INTERFACES
   cisco.nxos.nxos_interfaces:
     config:
@@ -28,6 +18,16 @@
         ipv4:
           - address: "{{ item.addr }}"
   loop: "{{ loopbacks }}"
+
+- name: ENABLE OSPF PROCESS
+  cisco.nxos.nxos_ospfv2:
+    config:
+      processes:
+        - process_id: "{{ ospf_process_id }}"
+          router_id: "{{ router_id }}"
+          areas:
+            - area_id: 0.0.0.0
+              default_cost: 10
 
 - name: ASSOCIATE LOOPBACK WITH OSPF PROCESS
   cisco.nxos.nxos_ospf_interfaces:
@@ -98,31 +98,6 @@
                 both: true
               route_reflector_client: true
   loop: "{{ leaf_bgp_neighbors }}"
-
-# - name: CONFIGURE VLAN TO VNI MAPPING
-#   cisco.nxos.nxos_vlans:
-#     config:
-#       - vlan_id: "{{ item.vlan_id }}"
-#         mapped_vni: "{{ item.vni_id }}"
-#   with_items:
-#     - "{{ leaf_vlans_l2vni }}"
-#     - "{{ leaf_vlans_l3vni }}"
-
-# - name: CONFIGURE TENANT VRFs
-#   cisco.nxos.nxos_vrf:
-#     vrf: "{{ item.vrf }}"
-#     vni: "{{ item.vni_id }}"
-#     rd: auto
-#     state: present
-#   loop: "{{ leaf_vrfs }}"
-
-# - name: CONFIGURE TENANT VRFs (cont'd)
-#   cisco.nxos.nxos_vrf_af:
-#     vrf: "{{ item.vrf }}"
-#     afi: ipv4
-#     route_target_both_auto_evpn: true
-#     state: present
-#   loop: "{{ leaf_vrfs }}"
 
 - name: CONFIGURE VXLAN VTEP NVE INTERFACE
   cisco.nxos.nxos_interfaces:
